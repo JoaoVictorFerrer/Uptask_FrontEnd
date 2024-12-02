@@ -1,6 +1,8 @@
 
 import { getProjectById } from '@/api/projectsApi';
 import AddTaskModal from '@/components/tasks/AddTaskModal';
+import EditTaskData from '@/components/tasks/EditTaskData';
+import TaskList from '@/components/tasks/TaskList';
 import { useQuery } from '@tanstack/react-query';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 
@@ -15,6 +17,7 @@ export default function ProjectDetailsView() {
         queryFn: () => getProjectById(projectId),
         retry: 1 // por defecto intenta realizar 3 veces la conexion ante de tirar el error del back. 
       });
+
 
       if(isLoading) return 'cargando...'
       if(isError) return <Navigate  to='/404'/>
@@ -31,8 +34,12 @@ export default function ProjectDetailsView() {
                     >
                         Agregar tareas
                 </button>
-            <AddTaskModal/>
             </nav>
+                <TaskList 
+                tasks={data.tasks}
+                />
+            <AddTaskModal/>
+            <EditTaskData/>
         
         </>
       )
