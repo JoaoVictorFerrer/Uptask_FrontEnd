@@ -12,14 +12,14 @@ export default function EditTaskData() {
 
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
-    const editTaskId = queryParams.get('editTaskId')!
+    const taskId = queryParams.get('editTaskId')!
     
     const {data,isError} = useQuery({
-        queryKey: ['task',editTaskId],
-        queryFn: ()=> getTaskByID({projectId,editTaskId}),
-        enabled: !!editTaskId, // el enable solo ejecutara sia es true editTaskId conviertiendolo en boolean con !!
+        queryKey: ['task',taskId],
+        queryFn: ()=> getTaskByID({projectId,taskId}),
+        enabled: !!taskId, // el enable solo ejecutara sia es true editTaskId conviertiendolo en boolean con !!
         retry: false 
     })
     if (isError) return <Navigate to= {'/404'}/> // manejando error de modificar la url manualmente
-    if(data) return <EditTaskModal data = {data} editTaskId = {editTaskId} />
+    if(data) return <EditTaskModal data = {data} taskId = {taskId} />
 }

@@ -33,6 +33,7 @@ export default function EditTaskModal({data,taskId}: EditTaskModalProps) {
         },
         onSuccess: (data) =>{
             queryClient.invalidateQueries({queryKey: ["editProject", projectId]}) // para hacer el refresh de la peticiony tener los datos actualizados
+            queryClient.invalidateQueries({queryKey:['task',taskId]}) // actualizando el estado del form despues de editar. evitando informacion cacheada.
             toast.success(data)
             reset()
             navigate(location.pathname, {replace: true})
