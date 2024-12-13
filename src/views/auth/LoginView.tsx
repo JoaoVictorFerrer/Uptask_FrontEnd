@@ -20,8 +20,8 @@ export default function LoginView() {
     onError: (error) =>{
       toast.error(error.message)
     },
-    onSuccess: (response) => {
-      toast.success(response)
+    onSuccess: () => {
+      toast.success('Iniciado Sesion Corretamente')
     }
   })
 
@@ -29,9 +29,14 @@ export default function LoginView() {
 
   return (
     <>
+         <h1 className="text-5xl font-black text-white">Inicia Sesion</h1>
+      <p className="text-2xl font-light text-white mt-5">
+        Empieza a planear tus proyectos.
+        <span className=" text-fuchsia-500 font-bold"> De manera organizada</span>
+      </p>
       <form
         onSubmit={handleSubmit(handleLogin)}
-        className="space-y-8 p-10 bg-white rounded-lg"
+        className="space-y-8 p-10 bg-white rounded-lg mt-10"
         noValidate
       >
         <div className="flex flex-col gap-5 ">
@@ -81,8 +86,9 @@ export default function LoginView() {
           className="bg-fuchsia-600 hover:bg-fuchsia-700 w-full p-3  text-white font-black  text-xl cursor-pointer"
         />
       </form>
-      <nav className="mt-10 flex flex-col space-y-4">
+      <nav className="mt-10 flex flex-col space-y-2">
         <Link to={'/auth/register'} className="text-center text-gray-300 font-normal">No tienes Cuenta? <span className="text-fuchsia-600 font-bold">Crea Una aqui</span></Link>
+        <Link to={'/auth/forgot-password'} className="text-center text-gray-300 font-normal">Olvidaste tu contraseña? <span className="text-fuchsia-600 font-bold">Pulse aqui.</span></Link>
       </nav>
     </>
   )
