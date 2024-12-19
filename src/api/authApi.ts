@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
-import { ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm } from "../types";
+import { ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm, userSchema } from "../types";
 import api from "@/lib/axios";
+
 
 
 export async function createAccount (formData : UserRegistrationForm){
@@ -97,4 +98,20 @@ export async function updatePasswordWithToken ({formData , token } : {formData: 
     }
 
     
+}
+
+export async function getUser() {
+    try {
+       
+        const {data} =  await api('/auth/user') // lo puedo tipar con generic en api<User>
+        const response = userSchema.safeParse(data)
+        if(response.success){
+            return response.data
+        }
+        
+    } catch (error) {
+        if(isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error)
+        }
+    }
 }
