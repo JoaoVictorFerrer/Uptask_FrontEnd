@@ -52,7 +52,7 @@ export default function EditProjectForm({data,projectId}: EditProjectFormProps) 
 
         <nav className="my-5">
             <Link
-            className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
+            className=" bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors "
             to={"/"}
             >
             Volver a Proyectos
