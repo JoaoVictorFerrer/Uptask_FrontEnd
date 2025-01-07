@@ -4,8 +4,9 @@ import { statusTranslations } from "@/locales/es";
 
 type TasksListProp = {
   tasks: Task[];
+  canEdit: boolean
 };
-export default function TaskList({ tasks }: TasksListProp) {
+export default function TaskList({ tasks,canEdit }: TasksListProp) {
   type GroupedTasks = {
     [key: string]: Task[];
   };
@@ -52,7 +53,7 @@ export default function TaskList({ tasks }: TasksListProp) {
                     No Hay tareas
                     </li>
                 ) : (
-                    tasks.map((task) => <TaskCard key={task._id} task={task} />)
+                    tasks.map((task) => <TaskCard key={task._id} task={task} canEdit={canEdit} />)
                 )}
                 </ul>
             </div>

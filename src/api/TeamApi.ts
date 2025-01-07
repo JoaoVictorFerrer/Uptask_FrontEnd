@@ -28,7 +28,7 @@ export async function addMemberToProject({id,projectId} : Pick<TeamApi, 'id' | '
 
     try {
         const url = `projects/${projectId}/team`
-         const {data} = await api.post(url,{id})
+         const {data} = await api.post<string>(url,{id})
         return data
 
         
@@ -50,6 +50,22 @@ export async function getProjectTeam(projectId : Project['_id'] ) {
                 return response.data
             }
             
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+    
+}
+
+export async function removeMemberToProject({idUser,projectId} : {idUser: TeamMember['_id'] , projectId:  Project['_id'] } ) {
+
+    try {
+        const url = `projects/${projectId}/team/${idUser}`
+         const {data} = await api.delete<string>(url)
+        return data
+
+        
     } catch (error) {
         if(isAxiosError(error) && error.response){
             throw new Error(error.response.data.error)
