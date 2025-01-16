@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { formatDate } from "@/utils/utils";
 import { statusTranslations } from "@/locales/es";
 import { TaskStatus } from "@/types/index";
+import NotesPanel from "../notes/NotesPanel";
 
 export default function TaskModalDetails() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function TaskModalDetails() {
     onSuccess: (data) => {
       toast.success(data);
       queryClient.invalidateQueries({ queryKey: ["editProject", projectId] }); // reordenar la tarea
-      queryClient.invalidateQueries({ queryKey: ["task", taskId] }); // actualizar ele stado de la tarea cuando se ordena eliminado el cacheo previo con. la nueva consulta
+      queryClient.invalidateQueries({ queryKey: ["task", taskId] }); // actualizar ele estado de la tarea cuando se ordena eliminando el cacheo previo con la nueva consulta
     },
   });
 
@@ -113,23 +114,25 @@ export default function TaskModalDetails() {
                     <p className="text-lg text-slate-500 mb-2">
                       Descripción: {data.description}
                     </p>
-                    <p className=" text-lg text-slate-500 mb-2">
-                      Historial de cambios
-                    </p>
-                    <ul className="list-decimal">
-                      {data.completedBy.map((activityLog) => (
-                        <li key={activityLog._id}>
-                          <span className="font-bold text-slate-600">
-                            {statusTranslations[activityLog.status]}
-                          </span>{" "}
-                          por: {activityLog.user?.name}
-                        </li>
-                      ))}
-                    </ul>
+                    {data.completedBy.length > 0 && (
+                      <>
+                        <p className=" font-bold text-2xl text-slate-600 my-5">
+                          Historial de cambios
+                        </p>
+                        <ul className="list-decimal">
+                          {data.completedBy.map((activityLog) => (
+                            <li key={activityLog._id}>
+                              <span className="font-bold text-slate-600">
+                                {statusTranslations[activityLog.status]}
+                              </span>{" "}
+                              por: {activityLog.user?.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                     <div className="my-5 space-y-3">
-                      <label className="font-bold">
-                        Estado Actual: 
-                      </label>
+                      <label className="font-bold">Estado Actual:</label>
                       <select
                         className="w-full p-3 bg-white border border-gray-300 rounded-md"
                         defaultValue={data.status}
@@ -144,6 +147,7 @@ export default function TaskModalDetails() {
                         )}
                       </select>
                     </div>
+                    <NotesPanel notes = {data.notes} />
                   </Dialog.Panel>
                 </Transition.Child>
               </div>
