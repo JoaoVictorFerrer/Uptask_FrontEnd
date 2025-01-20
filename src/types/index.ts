@@ -20,7 +20,14 @@ export type ConfirmToken = Pick<Auth, "token">;
 export type RequestConfirmationCodeForm = Pick<Auth, "email">;
 export type ForgotPasswordForm = Pick<Auth, "email">;
 export type NewPasswordForm = Pick<Auth, "password" | "password_confirmation">;
+export type PasswordForDelete = Pick<Auth,"password">
+export const changePasswordSchema = z.object({
+  current_password: z.string(),
+  password: z.string(),
+  password_confirmation: z.string(),
+})
 
+export type ChangePasswordForm = z.infer<typeof changePasswordSchema>
 /** Users */
 
 export const userSchema = authSchema
@@ -33,6 +40,7 @@ export const userSchema = authSchema
   });
 
 export type User = z.infer<typeof userSchema>;
+export type UserProfileForm = Pick<User,'name' | 'email'>
 
 /** Notes */
 
@@ -76,8 +84,16 @@ export const taskSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const taskProjectSchema = taskSchema.pick({
+  _id: true,
+  name: true,
+  description: true,
+  status: true,
+})
+
 export type Task = z.infer<typeof taskSchema>;
 export type TaskFormData = Pick<Task, "name" | "description">;
+export type TaskProject = z.infer<typeof taskProjectSchema>
 
 /** Projects */
 
@@ -86,7 +102,9 @@ export const projectSchema = z.object({
   projectName: z.string(),
   clientName: z.string(),
   description: z.string(),
-  manager: z.string(userSchema.pick({_id:true}))
+  manager: z.string(userSchema.pick({_id:true})),
+  tasks: z.array(taskProjectSchema),
+  team: z.array(z.string(userSchema.pick({_id:true})))
 });
 
 export const dasboardProjectSchema = z.array(
@@ -98,6 +116,12 @@ export const dasboardProjectSchema = z.array(
     manager:true
   })
 );
+
+export const editProjectSchema = projectSchema.pick({
+  projectName: true,
+  clientName: true,
+  description: true,
+})
 
 export type Project = z.infer<typeof projectSchema>;
 //reutilizo el type de Project para redefir el type del formProject
