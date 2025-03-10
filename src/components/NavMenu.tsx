@@ -24,7 +24,7 @@ import {  useQueryClient } from '@tanstack/react-query'
     }
     
     return (
-      <Popover className='relative'>
+      <Popover className='relative mr-4'>
         <PopoverButton className='inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400'>
           <Bars3Icon className='w-8 h-8 text-white ' />
         </PopoverButton>

@@ -3,10 +3,12 @@ import { ConfirmToken } from "@/types/index";
 import { PinInput, PinInputField } from "@chakra-ui/pin-input";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ConfirmAccountView() {
+
+  const navigate = useNavigate()
 
   const [token, setToken] = useState<ConfirmToken['token']>('')
   const handleChange = (token : ConfirmToken['token'])=>{
@@ -25,6 +27,7 @@ export default function ConfirmAccountView() {
     },
     onSuccess: (response) =>{
       toast.success(response)
+      navigate('/auth/login')
     }
   })
 
